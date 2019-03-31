@@ -1,0 +1,13 @@
+
+Exemplo de Makefile:
+
+    (resultado): (arquivos)     // Indica dependência, se algum arquivo desse
+                                // foi modificado, resultado será recompilado.
+        (comandos)
+
+Tradução em variáveis:
+
+    LIB:lib.c
+    LIBO:$(LIB:.c=.o)
+
+Na segunda linha, ele pega "lib.c" e substitui ".c" por ".o".

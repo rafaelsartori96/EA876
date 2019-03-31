@@ -1,7 +1,7 @@
 
 
 all: lex.yy.c y.tab.c
-	gcc -omain lex.yy.c y.tab.c -ll
+	gcc -omain lex.yy.c y.tab.c -lfl
 
 lex.yy.c:calc1.l y.tab.c
 	flex calc1.l

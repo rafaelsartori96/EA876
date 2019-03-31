@@ -14,8 +14,9 @@ int eh_digito(char c)
 
 typedef struct {
   int estado_atual;
-} fsm, *Fsm; /* fsm = finite state machine */
+} fsm, *Fsm; /* fsm = finite state machine | Fsm = *fsm, não precisa usar '*' */
 
+/* obstrução: (void *) para não mostrar em cabeçalho o que é a struct */
 int opera_fsm(void *this_fsm, char entrada) {
   Fsm maquina = (Fsm) this_fsm;
 
@@ -27,6 +28,14 @@ int opera_fsm(void *this_fsm, char entrada) {
       break;
 
     case 1:
+      if (eh_digito(entrada)) {
+        maquina->estado_atual = 2;
+      } else {
+        maquina->estado_atual = 0;
+      }
+      break;
+
+    case 2:
       if (!eh_digito(entrada)) {
         maquina->estado_atual = 0;
       }
@@ -37,12 +46,11 @@ int opera_fsm(void *this_fsm, char entrada) {
 
 int main() {
   char buffer_in[100];
-  int pointer;
-  int achei_inteiro;
 
   for (int i=0; i<100; i++) buffer_in[i] = '\0';
 
-  pointer = 0;
+  int pointer = 0;
+  char c;
   do {
     c=getchar();
     buffer_in[pointer++] = c;
@@ -52,16 +60,27 @@ int main() {
   maquina.estado_atual = 0;
 
   pointer = 0;
-  achei_inteiro = 0;
+  int achei_2_inteiros = 0;
+
   while (buffer_in[pointer] != '\0') {
     opera_fsm((void*) (&maquina), buffer_in[pointer]);
-    if (maquina.estado_atual == 1) achei_inteiro = 1;
+
+    /*
+     * É uma máquina de Moore, não utiliza a entrada para determinar a saída
+     */
+
+    if (maquina.estado_atual == 2)
+      achei_2_inteiros = 1;
+
     printf("Entrada: %c\tEstado: %d\n", buffer_in[pointer], maquina.estado_atual);
+
     pointer++;
   }
 
-  if (achei_inteiro == 1) printf("ACEITAR\n");
-  else printf("REJEITAR\n");
+  if (achei_2_inteiros == 1)
+    printf("ACEITAR\n");
+  else
+    printf("REJEITAR\n");
 
   return 0;
 }

@@ -14,7 +14,10 @@
   /* Os delimitadores %{ e %} separam codigo C na secao de definicoes */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+double soma;
 
 /* Criteiros de desempate:
    1 - Maior match
@@ -22,26 +25,51 @@
 %}
 
 
-LETRA   [a-zA-Z]
-DIGITO  [0-9]
+LETRA     [a-zA-Z]
+DIGITO    [0-9]
 
-PALAVRA  {LETRA}+
-INTEIRO  {DIGITO}+
+PALAVRA   {LETRA}+
+INTEIRO   {DIGITO}+
+FLOAT     {INTEIRO}+[.]{INTEIRO}+
 
 %%
 
 
-{INTEIRO} { printf("Inteiro! %d\n", atoi(yytext));}
--{INTEIRO} { printf("Inteiro negativo %d\n", atoi(yytext)); }
+{INTEIRO} {
+  int inteiro = atoi(yytext);
+  printf("Inteiro! %d\n", inteiro);
+  soma += inteiro;
+  printf("Soma = %lf\n", soma);
+}
+-{INTEIRO} {
+  int inteiro = atoi(yytext);
+  printf("Inteiro negativo! %d\n", inteiro);
+  soma += inteiro;
+  printf("Soma = %lf\n", soma);
+}
+
+{FLOAT} {
+  double ponto_flut = atof(yytext);
+  printf("Float %lf\n", ponto_flut);
+  soma += ponto_flut;
+  printf("Soma = %lf\n", soma);
+}
+-{FLOAT} {
+  double ponto_flut = atof(yytext);
+  printf("Float negativo %lf\n", ponto_flut);
+  soma += ponto_flut;
+  printf("Soma = %lf\n", soma);
+}
+
 
 [a-zA-Z]+ { printf("Encontrei a palavra %s\n", yytext); } /* yytext e o texto que
                                                            deu match na
                                                            expressao regular */
 
-[[:space:]]+ ;
-[[:^space:]]+ ;
+[[:space:]]+ ; /* reconhece qualquer espaço, mas não faz nada */
+[[:^space:]]+ ; /* reconhece tudo que não é espaço, mas não faz nada */
 
-[.\n]* ;
+[.\n]* ; /* reconhece qualquer caractere e \n, mas não faz nada */
 
 
 %%

@@ -7,7 +7,7 @@
  * Detecta se existe ao menos um numero inteiro na linha inserida */
 
 int eh_digito(char c)
-{
+{,
   if ((c >= '0') && (c <= '9')) return 1;
   else return 0;
 }

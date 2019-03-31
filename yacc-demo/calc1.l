@@ -9,22 +9,46 @@ void yyerror(char *);
 
 %%
 
-[0-9]+  {
-          yylval = atoi(yytext);
-          return INT;
-        }
+[0-9]+  { /* Definimos o que é o token INT */
+    yylval = atoi(yytext);
+    return INT;
+}
 
-[+]     {
-          return SOMA;
-        }
+[A-Za-z][A-Za-z0-9]* { /* Definimos o que é o token IDENTIFICADOR,
+                        * deve começar com letra */
+    yylval = yytext;
+    return IDENTIFICADOR;
+}
 
-\n   {
-         return EOL;
-       }
+[=]     { /* Definimos o que é o token EQUALS */
+    return EQUALS;
+}
+
+[+]     { /* Definimos o que é o token SUM */
+    return SUM;
+}
+
+[*]     { /* Definimos o que é o token MUL */
+    return MUL;
+}
+
+[(]     { /* Definimos o que é o token OPEN_PAR */
+    return OPEN_PAR;
+}
+
+[)]     { /* Definimos o que é o token CLOSE_PAR */
+    return CLOSE_PAR;
+}
+
+\n      { /* Definimos o que é o token EOL */
+    return EOL;
+}
 
 [ \t]+ ;
 
-.     {yyerror("Token nao reconhecido!\n");}
+.       {
+    yyerror("Token nao reconhecido!\n");
+}
 
 %%
 
