@@ -12,9 +12,9 @@ int fibo(int N) {
 }
 
 int main() {
-  pid_t pid[40];
+  pid_t pid[2];
   int i = 0;
-  for (int j=0; j<40; j++) {
+  for (int j=0; j<2; j++) {
     pid[j] = fork();
     i += 1;
     if (pid[j]==0) {
@@ -24,7 +24,7 @@ int main() {
     }
   }
   i += 4;
-  for (int j=0; j<40; j++)
+  for (int j=0; j<2; j++)
     waitpid(pid[j], NULL, 0);
   i += 8;
   printf("%d\n", i);

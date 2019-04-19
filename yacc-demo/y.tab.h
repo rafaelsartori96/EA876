@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.2.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -48,25 +49,19 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    IDENTIFICADOR = 258,
-    INT = 259,
-    MUL = 260,
-    SUM = 261,
-    OPEN_PAR = 262,
-    CLOSE_PAR = 263,
-    EQUALS = 264,
-    EOL = 265
+    INT = 258,
+    SOMA = 259,
+    EOL = 260,
+    ABRE_PAR = 261,
+    FECHA_PAR = 262
   };
 #endif
 /* Tokens.  */
-#define IDENTIFICADOR 258
-#define INT 259
-#define MUL 260
-#define SUM 261
-#define OPEN_PAR 262
-#define CLOSE_PAR 263
-#define EQUALS 264
-#define EOL 265
+#define INT 258
+#define SOMA 259
+#define EOL 260
+#define ABRE_PAR 261
+#define FECHA_PAR 262
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

@@ -74,7 +74,7 @@ void yyerror(char *c);
 int yylex(void);
 
 
-#line 78 "y.tab.c" /* yacc.c:337  */
+#line 78 "calc1.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -95,10 +95,7 @@ int yylex(void);
 # define YYERROR_VERBOSE 0
 #endif
 
-/* In a future release of Bison, this section will be replaced
-   by #include "y.tab.h".  */
-#ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
+
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -119,12 +116,6 @@ extern int yydebug;
     FECHA_PAR = 262
   };
 #endif
-/* Tokens.  */
-#define INT 258
-#define SOMA 259
-#define EOL 260
-#define ABRE_PAR 261
-#define FECHA_PAR 262
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -138,7 +129,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
+
 
 
 
@@ -1211,44 +1202,44 @@ yyreduce:
         case 2:
 #line 15 "calc1.y" /* yacc.c:1652  */
     { printf("Resultado: %d\n", yyvsp[-1]); }
-#line 1215 "y.tab.c" /* yacc.c:1652  */
+#line 1206 "calc1.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
 #line 21 "calc1.y" /* yacc.c:1652  */
     {
             yyval = yyvsp[0];
-            printf("encontrei inteiro: %d\n", yyval);
+            //printf("encontrei inteiro: %d\n", $$);
             printf("\t\tldr r0, =%d\n", yyval);
             printf("\t\tstr r0, [sp, #4]!\n", yyval);
         }
-#line 1226 "y.tab.c" /* yacc.c:1652  */
+#line 1217 "calc1.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
 #line 28 "calc1.y" /* yacc.c:1652  */
     {
         yyval = yyvsp[-1];
-        printf("encontrei expressão entre parentesis: %d\n", yyval);
+        //printf("encontrei expressão entre parentesis: %d\n", $$);
     }
-#line 1235 "y.tab.c" /* yacc.c:1652  */
+#line 1226 "calc1.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
 #line 33 "calc1.y" /* yacc.c:1652  */
     {
-        printf("Encontrei soma: %d + %d = %d\n", yyvsp[-2], yyvsp[0], yyvsp[-2]+yyvsp[0]);
+        //printf("Encontrei soma: %d + %d = %d\n", $1, $3, $1+$3);
         yyval = yyvsp[-2] + yyvsp[0];
         printf("\t\tldr r0, [sp], #-4\n");
         printf("\t\tldr r1, [sp], #-4\n");
         printf("\t\tadd r0, r0, r1\n");
         printf("\t\tstr r0, [sp, #4]!\n");
         }
-#line 1248 "y.tab.c" /* yacc.c:1652  */
+#line 1239 "calc1.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1252 "y.tab.c" /* yacc.c:1652  */
+#line 1243 "calc1.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

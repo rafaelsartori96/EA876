@@ -1,86 +1,43 @@
 %{
 #include <stdio.h>
-#include <string.h>
-
-typedef struct variavel_t {
-    char nome[256];
-    int valor;
-    struct variavel_t *proxima;
-} variavel_t;
 
 void yyerror(char *c);
 int yylex(void);
 
-variavel_t *lista_variaveis = NULL;
-
 %}
 
-/* registro de tokens => declarados em lex */
-%token IDENTIFICADOR INT MUL SUM OPEN_PAR CLOSE_PAR EQUALS EOL
-/* precedência => soma vem a esquerda, precedência da multiplicação
- * referente a soma */
-%left SUM
-%left MUL
+%token INT SOMA EOL ABRE_PAR FECHA_PAR
+%left SOMA
 
 %%
 
-/*
- * PROGRAMA -> EXPRESSAO \n
- * PROGRAMA -> (vazio)
- */
 PROGRAMA:
         PROGRAMA EXPRESSAO EOL { printf("Resultado: %d\n", $2); }
-        | PROGRAMA ATRIBUICAO EOL
         |
         ;
 
-/*
- * EXPRESSAO -> INT
- * EXPRESSAO -> OPEN_PAR EXPRESSAO CLOSE_PAR
- * EXPRESSAO -> EXPRESSAO + EXPRESSAO
- * EXPRESSAO -> EXPRESSAO * EXPRESSAO
- */
+
 EXPRESSAO:
-    INT
-    | IDENTIFICADOR {
-        variavel_t *auxiliar = lista_variaveis;
-        while (strcmp($1, auxiliar->nome) != 0) {
-            auxiliar = auxiliar->proxima;
+    INT {
+            $$ = $1;
+            printf("encontrei inteiro: %d\n", $$);
+            printf("\t\tldr r0, =%d\n", $$);
+            printf("\t\tstr r0, [sp, #4]!\n", $$);
         }
 
-        if (auxiliar == NULL) {
-            printf("Não encontramos valor para identificador!\n");
-        } else {
-            $$ = auxiliar->valor;
-        }
-    }
-
-    | OPEN_PAR EXPRESSAO CLOSE_PAR {
+    | ABRE_PAR EXPRESSAO FECHA_PAR {
         $$ = $2;
-        printf("Expressão entre parêntesis: %d\n", $$);
+        printf("encontrei expressão entre parentesis: %d\n", $$);
     }
 
-    /*    $1     $2     $3      */
-    | EXPRESSAO SUM EXPRESSAO {
+    | EXPRESSAO SOMA EXPRESSAO  {
+        printf("Encontrei soma: %d + %d = %d\n", $1, $3, $1+$3);
         $$ = $1 + $3;
-        printf("Encontrei soma: %d + %d = %d\n", $1, $3, $$);
-    }
-
-    | EXPRESSAO MUL EXPRESSAO {
-        $$ = $1 * $3;
-        printf("encontrei multiplicação: %d * %d = %d\n", $1, $3, $$);
-    }
-    ;
-
-ATRIBUICAO:
-    IDENTIFICADOR EQUALS EXPRESSAO {
-        variavel_t *variavel = malloc(sizeof(variavel_t));
-        strcpy(variavel->nome, $1);
-        variavel->valor = $3;
-        printf("var %s = %d\n", variavel->nome, variavel->valor);
-        variavel->proxima = lista_variaveis;
-        lista_variaveis = variavel;
-    }
+        printf("\t\tldr r0, [sp], #-4\n");
+        printf("\t\tldr r1, [sp], #-4\n");
+        printf("\t\tadd r0, r0, r1\n");
+        printf("\t\tstr r0, [sp, #4]!\n");
+        }
     ;
 
 %%
@@ -90,12 +47,7 @@ void yyerror(char *s) {
 }
 
 int main() {
-    yyparse();
-    variavel_t *aux = lista_variaveis;
-    while (aux != NULL) {
-        lista_variaveis = aux->proxima;
-        free(aux);
-        aux = lista_variaveis;
-    }
-    return 0;
+  yyparse();
+  return 0;
+
 }

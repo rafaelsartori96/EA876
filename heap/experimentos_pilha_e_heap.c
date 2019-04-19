@@ -92,6 +92,8 @@ int main() {
   t_heap = 1000 * (double)dif2/CLOCKS_PER_SEC;
   printf("Acessar na pilha:\t%f ms\nAcessar no heap: \t%f ms\n", t_pilha, t_heap);
 
+    return 0;
+
   printf("Experimento 4: outro experimento sobre alocar mais memória no heap que na pilha\n");
   tamanho = 10;
 
